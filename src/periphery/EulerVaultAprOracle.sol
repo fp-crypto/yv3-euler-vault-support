@@ -2,8 +2,10 @@
 pragma solidity ^0.8.18;
 
 import {AprOracleBase} from "@periphery/AprOracle/AprOracleBase.sol";
+import {IEVault} from "@evk/EVault/IEVault.sol"; 
+import {IIRM} from "@evk/InterestRateModels/IIRM.sol"; 
 
-contract StrategyAprOracle is AprOracleBase {
+contract EulerVaultAprOracle is AprOracleBase {
     constructor() AprOracleBase("Strategy Apr Oracle Example", msg.sender) {}
 
     /**
@@ -21,16 +23,25 @@ contract StrategyAprOracle is AprOracleBase {
      * This will potentially be called during non-view functions so gas
      * efficiency should be taken into account.
      *
-     * @param _strategy The token to get the apr for.
+     * @param _evaultAddr The token to get the apr for.
      * @param _delta The difference in debt.
      * @return . The expected apr for the strategy represented as 1e18.
      */
     function aprAfterDebtChange(
-        address _strategy,
+        address _evaultAddr,
         int256 _delta
     ) external view override returns (uint256) {
-        // TODO: Implement any necessary logic to return the most accurate
-        //      APR estimation for the strategy.
-        return 1e17;
+        IEVault _evault = IEVault(_evaultAddr);
+        IIRM _irm = IIRM(_evault.interestRateModel());
+
+        int256 _cash = int256(_evault.cash());
+
+        require(_cash >= -_delta, "delta too big"); // dev: _delta too large
+
+        return _irm.computeInterestRateView(
+            _evaultAddr,
+            uint256(_cash + _delta),
+            _evault.totalBorrows()
+        );
     }
 }
