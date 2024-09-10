@@ -21,7 +21,7 @@ trace  :; forge test -vvv --fork-url ${FORK_URL}
 gas  :; forge test --fork-url ${FORK_URL} --gas-report
 test-contract  :; forge test -vv --match-contract $(contract) --fork-url ${FORK_URL}
 test-contract-gas  :; forge test --gas-report --match-contract ${contract} --fork-url ${FORK_URL}
-trace-contract  :; forge test -vvv --match-contract $(contract) --fork-url ${FORK_URL}
+trace-contract  :; forge test -vvvv --match-contract $(contract) --fork-url ${FORK_URL}
 test-test  :; forge test -vv --match-test $(test) --fork-url ${FORK_URL}
 test-test-trace  :; forge test -vvv --match-test $(test) --fork-url ${FORK_URL}
 trace-test  :; forge test -vvvvv --match-test $(test) --fork-url ${FORK_URL}

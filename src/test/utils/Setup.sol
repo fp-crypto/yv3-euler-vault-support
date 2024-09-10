@@ -42,7 +42,7 @@ contract Setup is ExtendedTest, IEvents {
         vm.label(management, "management");
         for (uint8 i; i < tokens.length; ++i){
             vm.label(tokenAddrs[tokens[i]], tokens[i]);
-            vm.label(tokenAddrs[tokens[i]], string(abi.encodePacked("e", tokens[i])));
+            vm.label(eulerBaseVaultAddrs[tokens[i]], string(abi.encodePacked("e", tokens[i])));
         }
     }
 
