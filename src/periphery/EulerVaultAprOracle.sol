@@ -4,7 +4,6 @@ pragma solidity ^0.8.18;
 import {AprOracleBase} from "@periphery/AprOracle/AprOracleBase.sol";
 import {IEVault} from "@evk/EVault/IEVault.sol";
 import {IIRM} from "@evk/InterestRateModels/IIRM.sol";
-import {VaultLens, VaultInterestRateModelInfo} from "@evk-periphery/Lens/VaultLens.sol";
 
 contract EulerVaultAprOracle is AprOracleBase {
     constructor() AprOracleBase("Strategy Apr Oracle Example", msg.sender) {}
