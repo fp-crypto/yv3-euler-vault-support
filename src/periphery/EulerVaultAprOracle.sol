@@ -2,8 +2,9 @@
 pragma solidity ^0.8.18;
 
 import {AprOracleBase} from "@periphery/AprOracle/AprOracleBase.sol";
-import {IEVault} from "@evk/EVault/IEVault.sol"; 
-import {IIRM} from "@evk/InterestRateModels/IIRM.sol"; 
+import {IEVault} from "@evk/EVault/IEVault.sol";
+import {IIRM} from "@evk/InterestRateModels/IIRM.sol";
+import {VaultLens, VaultInterestRateModelInfo} from "@evk-periphery/Lens/VaultLens.sol";
 
 contract EulerVaultAprOracle is AprOracleBase {
     constructor() AprOracleBase("Strategy Apr Oracle Example", msg.sender) {}
@@ -23,25 +24,23 @@ contract EulerVaultAprOracle is AprOracleBase {
      * This will potentially be called during non-view functions so gas
      * efficiency should be taken into account.
      *
-     * @param _evaultAddr The token to get the apr for.
+     * @param _evault The euler vault to get the apr for.
      * @param _delta The difference in debt.
      * @return . The expected apr for the strategy represented as 1e18.
      */
     function aprAfterDebtChange(
-        address _evaultAddr,
+        address _evault,
         int256 _delta
     ) external view override returns (uint256) {
-        IEVault _evault = IEVault(_evaultAddr);
-        IIRM _irm = IIRM(_evault.interestRateModel());
-
-        int256 _cash = int256(_evault.cash());
-
-        require(_cash >= -_delta, "delta too big"); // dev: _delta too large
-
-        return _irm.computeInterestRateView(
-            _evaultAddr,
-            uint256(_cash + _delta),
-            _evault.totalBorrows()
-        );
+        int256 _cash = int256(IEVault(_evault).cash());
+        require(_cash >= -_delta, "delta too big"); // dev: _delta too big
+        
+        IIRM _irm = IIRM(IEVault(_evault).interestRateModel());
+        return
+            _irm.computeInterestRateView(
+                _evault,
+                uint256(_cash + _delta),
+                IEVault(_evault).totalBorrows()
+            );
     }
 }

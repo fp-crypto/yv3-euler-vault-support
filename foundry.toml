@@ -11,7 +11,11 @@ remappings = [
     "@tokenized-strategy/=lib/tokenized-strategy/src/",
     "@periphery/=lib/tokenized-strategy-periphery/src/",
     "@evk/=lib/euler-vault-kit/src/",
-    "ethereum-vault-connector/=lib/euler-vault-kit/lib/ethereum-vault-connector/src"
+    "@evk-periphery/=lib/evk-periphery/src/",
+    "ethereum-vault-connector/=lib/euler-vault-kit/lib/ethereum-vault-connector/src",
+    "reward-streams/=lib/evk-periphery/lib/reward-streams/src/",
+    "openzeppelin-contracts/=lib/evk-periphery/lib/openzeppelin-contracts/contracts/"
 ]
 
-# See more config options https://github.com/foundry-rs/foundry/tree/master/configprofile.default]
+[fuzz]
+runs = 2048
