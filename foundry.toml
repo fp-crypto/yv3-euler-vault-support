@@ -18,4 +18,4 @@ remappings = [
 ]
 
 [fuzz]
-runs = 2048
+runs = 8192
