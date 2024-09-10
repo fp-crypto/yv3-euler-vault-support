@@ -40,9 +40,12 @@ contract Setup is ExtendedTest, IEvents {
         // label all the used addresses for traces
         vm.label(keeper, "keeper");
         vm.label(management, "management");
-        for (uint8 i; i < tokens.length; ++i){
+        for (uint8 i; i < tokens.length; ++i) {
             vm.label(tokenAddrs[tokens[i]], tokens[i]);
-            vm.label(eulerBaseVaultAddrs[tokens[i]], string(abi.encodePacked("e", tokens[i])));
+            vm.label(
+                eulerBaseVaultAddrs[tokens[i]],
+                string(abi.encodePacked("e", tokens[i]))
+            );
         }
     }
 
@@ -58,14 +61,20 @@ contract Setup is ExtendedTest, IEvents {
     }
 
     function _setEulerBaseAddrs() internal {
-        eulerBaseVaultAddrs["WETH"] = 0xD8b27CF359b7D15710a5BE299AF6e7Bf904984C2;
-        eulerBaseVaultAddrs["USDT"] = 0x313603FA690301b0CaeEf8069c065862f9162162;
-        eulerBaseVaultAddrs["USDC"] = 0x797DD80692c3b2dAdabCe8e30C07fDE5307D48a9;
+        eulerBaseVaultAddrs[
+            "WETH"
+        ] = 0xD8b27CF359b7D15710a5BE299AF6e7Bf904984C2;
+        eulerBaseVaultAddrs[
+            "USDT"
+        ] = 0x313603FA690301b0CaeEf8069c065862f9162162;
+        eulerBaseVaultAddrs[
+            "USDC"
+        ] = 0x797DD80692c3b2dAdabCe8e30C07fDE5307D48a9;
     }
 
     function fixtureToken() public returns (string[] memory _tokensFixture) {
         _tokensFixture = new string[](tokens.length);
-        for (uint8 i; i < tokens.length; ++i){
+        for (uint8 i; i < tokens.length; ++i) {
             _tokensFixture[i] = tokens[i];
         }
     }
